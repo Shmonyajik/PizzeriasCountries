@@ -2,3 +2,4 @@
 token.pickle
 venv/
 Debug/
+.vscode/

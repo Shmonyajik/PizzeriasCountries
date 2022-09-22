@@ -2,11 +2,13 @@ from loguru import logger
 from itertools import count
 import urllib.request
 import json
+from GoogleSheet import GoogleSheet
 import quickstart
 import requests
 
 
-logger.add(r"Debug\debug{time}.log", format="{time} | {level} | {message}", level="DEBUG", rotation="10 KB", compression="zip")
+
+#logger.add(r"Debug\debug{time}.log", format="{time} | {level} | {message}", level="DEBUG", rotation="10 KB", compression="zip")
 
 @logger.catch
 def JSONPars (url):
@@ -48,17 +50,24 @@ def main():
         country_value1.append(['Нигерия'])
         pizza_values.append([value,key]) 
     try:
-        gs = quickstart.GoogleSheet() 
-        logger.info("Создан ресурс для взаимодействия с Google API")
+        gs = GoogleSheet()
     except Exception as ex:
         logger.error(ex)
-    try:
-        gs.updateRangeValues(f'Countries!B1:C{len(pizza_values)}' , pizza_values) 
-        gs.updateRangeValues(f'Countries!A{len(combine["Беларусь"])+1}:A{len(combine["Беларусь"])+len(combine["Нигерия"])}' , country_value1) 
-        gs.updateRangeValues(f'Countries!A1:A{len(combine["Беларусь"])}' , country_value)
-        logger.info(f"Обновлено: {pizza_range}")
-    except Exception as ex:
-        logger.error(ex)
+
+#region OldMethod
+    # try:
+    #     gs = quickstart.GoogleSheet() 
+    #     logger.info("Создан ресурс для взаимодействия с Google API")
+    # except Exception as ex:
+    #     logger.error(ex)
+    # try:
+    #     gs.updateRangeValues(f'Countries!B1:C{len(pizza_values)}' , pizza_values) 
+    #     gs.updateRangeValues(f'Countries!A{len(combine["Беларусь"])+1}:A{len(combine["Беларусь"])+len(combine["Нигерия"])}' , country_value1) 
+    #     gs.updateRangeValues(f'Countries!A1:A{len(combine["Беларусь"])}' , country_value)
+    #     logger.info(f"Обновлено: {pizza_range}")
+    # except Exception as ex:
+    #     logger.error(ex)
+#endregion
     
 if __name__== '__main__': 
     main()

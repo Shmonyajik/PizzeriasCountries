@@ -9,13 +9,14 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from fastapi import HTTPException
 
-logger.add(r"Debug\debug{time}.log", format="{time} | {level} | {message}", level="DEBUG", rotation="10 KB", compression="zip")
+#logger.add(r"Debug\debug{time}.log", format="{time} | {level} | {message}", level="DEBUG", rotation="10 KB", compression="zip")
 
 
 SAMPLE_RANGE_NAME = 'Test List!A2:E246'
 
 class GoogleSheet:
-    SPREADSHEET_ID = '16mUOHitGZjIwfAGCxwp0WnihellDiWOjBk3GYT8F6g0'
+
+    SPREADSHEET_ID = None
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     service = None
 
@@ -35,7 +36,7 @@ class GoogleSheet:
                 creds = flow.run_local_server(port=0)
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
-
+        
         self.service = build('sheets', 'v4', credentials=creds)
 
     @logger.catch
@@ -52,13 +53,14 @@ class GoogleSheet:
             result = self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.SPREADSHEET_ID, body=body).execute()
             logger.info('{0} cells updated.'.format(result.get('totalUpdatedCells')))
         except Exception as ex:
-            logger.info(f"{ex} Создан новый лист")
-            newList = self.service.spreadsheets().create(body = {
-    'properties': {'title': 'Первый тестовый документ', 'locale': 'ru_RU'}})
-            try:
-                self.SPREADSHEET_ID = newList['spreadsheetId'] 
-            except Exception as ex:
-                logger.error(ex)
+            logger.error(ex)
+    #         logger.info(f"{ex} Создан новый лист")
+    #         newList = self.service.spreadsheets().create(body = {
+    # 'properties': {'title': 'Первый тестовый документ', 'locale': 'ru_RU'}})
+    #         try:
+    #             self.SPREADSHEET_ID = newList['spreadsheetId'] 
+    #         except Exception as ex:
+    #             logger.error(ex)
             #result = self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.SPREADSHEET_ID, body=body).execute()
 
 
