@@ -1,9 +1,7 @@
 from loguru import logger
-from itertools import count
 import urllib.request
 import json
 from GoogleSpreadSheet import GoogleSpreadSheet
-import quickstart
 import requests
 
 
@@ -53,7 +51,7 @@ def main():
 #region OldMethod
     try:
         gs = GoogleSpreadSheet(spreadSheetId = "16mUOHitGZjIwfAGCxwp0WnihellDiWOjBk3GYT8F6g0")
-        logger.info("Создан ресурс для взаимодействия с Google API")
+        logger.info(f"Создан ресурс для взаимодействия с Google API, id таблицы: {gs.spreadsheetId}")
     except Exception as ex:
         logger.error(ex)
     try:

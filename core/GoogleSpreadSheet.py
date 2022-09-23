@@ -1,15 +1,10 @@
-import httplib2 
-import apiclient.discovery
-from oauth2client.service_account import ServiceAccountCredentials	
-from http import server
+
 from loguru import logger
 import os.path
 import pickle
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from fastapi import HTTPException
 
 
 class GoogleSpreadSheet:
@@ -71,10 +66,3 @@ class GoogleSpreadSheet:
         except Exception as ex:
             logger.error(ex)
             logger.info(f"{ex} Создан новый лист")
-    #         newList = self.service.spreadsheets().create(body = {
-    # 'properties': {'title': 'Первый тестовый документ', 'locale': 'ru_RU'}})
-    #         try:
-    #             self.SPREADSHEET_ID = newList['spreadsheetId'] 
-    #         except Exception as ex:
-    #             logger.error(ex)
-    #         result = self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheetId, body=body).execute()

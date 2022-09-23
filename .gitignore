@@ -3,3 +3,4 @@ token.pickle
 venv/
 Debug/
 .vscode/
+core/quickstart.py
